@@ -10,3 +10,4 @@ def deploy():
     with cd('/home/serial/serialapp.com/current/repo'):
         run('git pull origin master')
         run('composer install')
+        run('sudo service php7.0-fpm reload')
