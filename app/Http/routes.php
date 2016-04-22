@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/deploy', function () {
+    return 'Has hecho deploy en styde!';
+});
 /*
 |--------------------------------------------------------------------------
 | Application Routes
