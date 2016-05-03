@@ -39,6 +39,7 @@
         <div class="container">
             <div class="content">
                 <div class="title">Styde.net</div>
+                <p>Gracias por tomar este curso de deploy!</p>
             </div>
         </div>
     </body>
