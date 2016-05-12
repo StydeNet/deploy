@@ -38,7 +38,7 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Styde.net</div>
+                <div class="title">Rollback finalizado</div>
                 <p>Gracias por tomar este curso de deploy!</p>
             </div>
         </div>
