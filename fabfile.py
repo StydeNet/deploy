@@ -22,22 +22,53 @@ last_release_file = "/home/serial/serialapp.com/LAST_RELEASE"
 current_release_file = "/home/serial/serialapp.com/CURRENT_RELEASE"
 
 @task
-def deploy():
+def deploy(migrate='no'):
     init()
     update_git()
     create_release()
     build_site()
+
+    if migrate=='yes':
+        migrate_from = "%s/%s" % (releases_dir, next_release)
+        migrate_forward(migrate_from)
+
     swap_symlinks()
 
 @task
-def rollback():
+def rollback(migrate_back='no'):
     last_release = get_last_release()
     current_release = get_current_release()
+
+    if migrate_back=='yes':
+        migrate_from = "%s/%s" % (releases_dir, current_release)
+        migrate_backward(migrate_from)
 
     rollback_release(last_release)
 
     write_last_release(current_release)
     write_current_release(last_release)
+
+@task
+def migrate():
+    migrate_forward()
+
+@task
+def migrate_back():
+    migrate_backward()
+
+def migrate_forward(release_dir=None, env='production'):
+    if not release_dir:
+        release_dir=current_release
+
+    with cd(release_dir):
+        run('php artisan migrate --env=%s' % env)
+
+def migrate_backward(release_dir=None, env='production'):
+    if not release_dir:
+        release_dir=current_release
+
+    with cd(release_dir):
+        run('php artisan migrate:rollback --env=%s' % env)
 
 def get_last_release():
     fd = StringIO()
